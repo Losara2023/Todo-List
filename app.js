@@ -17,12 +17,13 @@ function runEvents() {
 function removeAllTodos() {
   const li = document.querySelectorAll(".list-group-item");
   if (li.length > 0) {
-    confirm("Are you sure to remove all Items?");
+  
     li.forEach((el) => {
-      el;
+    
       el.remove();
-      localStorage.removeItem("todos");
     });
+    todos=[];
+    localStorage.setItem("todos",JSON.stringify(todos))
 
     showAlert("success", "Your request has been deleted! ");
   } else {
@@ -33,6 +34,7 @@ function removeAllTodos() {
 function removeTodoUI(e) {
   if (e.target.className === "fa fa-remove") {
     // Remove from UI
+  
     const todo = e.target.parentElement.parentElement;
     todo.remove();
 
