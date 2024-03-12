@@ -9,26 +9,45 @@ let todos;
 runEvents();
 function runEvents() {
   form.addEventListener("submit", addTodo);
-  document.addEventListener("DOMContentLoaded",pageLoaded)
+  document.addEventListener("DOMContentLoaded", pageLoaded);
+  secondCardBody.addEventListener("click", removeTodoUI);
 }
-function pageLoaded(){
+function removeTodoUI(e) {
+  if (e.target.className === "fa fa-remove") {
+    // Remove from UI
+    const todo = e.target.parentElement.parentElement;
+    todo.remove();
+
+    // Remove from LocalStorage
+    removeTodoStorage(todo.textContent);
+    showAlert("success", "Your request has been deleted! ");
+  }
+}
+
+function removeTodoStorage(removeTodo) {
   checkTodosFromStorage();
-  todos.forEach(todo => {
+  todos.forEach(function (todo, index) {
+    if (removeTodo === todo) {
+      todos.splice(index, 1);
+    }
+  });
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
+function pageLoaded() {
+  checkTodosFromStorage();
+  todos.forEach((todo) => {
     addTodoUI(todo);
   });
 }
 
-
 function addTodo(e) {
   const inputText = addInput.value.trim();
   if (inputText === "" || inputText === null) {
-    showAlert("danger","Please insert you todo! ")
-  
+    showAlert("danger", "Please insert you todo! ");
   } else {
     addTodoUI(inputText);
     addToLocalStorage(inputText);
-    showAlert("success","Your to-do already added! ");
-    
+    showAlert("success", "Your to-do already added! ");
   }
   // add to UI
 
@@ -36,8 +55,6 @@ function addTodo(e) {
 
   e.preventDefault();
 }
-
-
 
 function addTodoUI(newTodo) {
   const li = document.createElement("li");
@@ -59,7 +76,6 @@ function addToLocalStorage(newTodo) {
   checkTodosFromStorage();
   todos.push(newTodo);
   localStorage.setItem("todos", JSON.stringify(todos));
-
 }
 
 function checkTodosFromStorage() {
@@ -71,18 +87,18 @@ function checkTodosFromStorage() {
 }
 
 function showAlert(type, massage) {
-  {/* <div class="alert alert-warning" role="alert">
+  {
+    /* <div class="alert alert-warning" role="alert">
     This is a warning alert—check it out!
-  </div>; */}
+  </div>; */
+  }
   const div = document.createElement("div");
-    div.className=`alert alert-${type}`;
-    div.textContent = massage;
-   
-    firstCardBody.appendChild(div);
+  div.className = `alert alert-${type}`;
+  div.textContent = massage;
+
+  firstCardBody.appendChild(div);
 
   setTimeout((params) => {
     div.remove();
-  }
-  ,2000)
-
+  }, 2000);
 }
