@@ -9,25 +9,36 @@ let todos;
 runEvents();
 function runEvents() {
   form.addEventListener("submit", addTodo);
-
-  function addTodo(e) {
-    const inputText = addInput.value.trim();
-    if (inputText === "" || inputText === null) {
-      showAlert("danger","Please insert you todo! ")
-    
-    } else {
-      addTodoUI(inputText);
-      addToLocalStorage(inputText);
-      showAlert("success","Your to-do already added! ");
-      
-    }
-    // add to UI
-
-    // add ti Localstorage
-
-    e.preventDefault();
-  }
+  document.addEventListener("DOMContentLoaded",pageLoaded)
 }
+function pageLoaded(){
+  checkTodosFromStorage();
+  todos.forEach(todo => {
+    addTodoUI(todo);
+  });
+}
+
+
+function addTodo(e) {
+  const inputText = addInput.value.trim();
+  if (inputText === "" || inputText === null) {
+    showAlert("danger","Please insert you todo! ")
+  
+  } else {
+    addTodoUI(inputText);
+    addToLocalStorage(inputText);
+    showAlert("success","Your to-do already added! ");
+    
+  }
+  // add to UI
+
+  // add ti Localstorage
+
+  e.preventDefault();
+}
+
+
+
 function addTodoUI(newTodo) {
   const li = document.createElement("li");
   li.className = "list-group-item d-flex justify-content-between";
@@ -48,6 +59,7 @@ function addToLocalStorage(newTodo) {
   checkTodosFromStorage();
   todos.push(newTodo);
   localStorage.setItem("todos", JSON.stringify(todos));
+
 }
 
 function checkTodosFromStorage() {
