@@ -27,7 +27,7 @@ function removeAllTodos() {
 
     showAlert("success", "Your request has been deleted! ");
   } else {
-    showAlert("warning", "Youe haven't any todo in your list! ");
+    showAlert("warning"  , "Youe haven't any todo in your list! ");
   }
 }
 
@@ -107,11 +107,7 @@ function checkTodosFromStorage() {
 }
 
 function showAlert(type, massage) {
-  {
-    /* <div class="alert alert-warning" role="alert">
-    This is a warning alert—check it out!
-  </div>; */
-  }
+  
   const div = document.createElement("div");
   div.className = `alert alert-${type}`;
   div.textContent = massage;
