@@ -4,6 +4,7 @@ const toDoList = document.querySelector(".list-group");
 const firstCardBody = document.querySelectorAll(".card-body")[0];
 const secondCardBody = document.querySelectorAll(".card-body")[1];
 const clearBtn = document.querySelector("#clearButton");
+
 let todos;
 
 runEvents();
@@ -11,7 +12,24 @@ function runEvents() {
   form.addEventListener("submit", addTodo);
   document.addEventListener("DOMContentLoaded", pageLoaded);
   secondCardBody.addEventListener("click", removeTodoUI);
+  clearBtn.addEventListener("click", removeAllTodos);
 }
+function removeAllTodos() {
+  const li = document.querySelectorAll(".list-group-item");
+  if (li.length > 0) {
+    confirm("Are you sure to remove all Items?");
+    li.forEach((el) => {
+      el;
+      el.remove();
+      localStorage.removeItem("todos");
+    });
+
+    showAlert("success", "Your request has been deleted! ");
+  } else {
+    showAlert("warning", "Youe haven't any todo in your list! ");
+  }
+}
+
 function removeTodoUI(e) {
   if (e.target.className === "fa fa-remove") {
     // Remove from UI
